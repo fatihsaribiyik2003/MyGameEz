@@ -26777,6 +26777,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 400503330957768413, guid: 381096ad916c0da4cb0a1d2ea95cae20, type: 3}
+      propertyPath: jumpForce
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 3220429304309787136, guid: 381096ad916c0da4cb0a1d2ea95cae20, type: 3}
       propertyPath: m_Name
       value: Player
@@ -26820,6 +26824,14 @@ PrefabInstance:
     - target: {fileID: 7154170989612546288, guid: 381096ad916c0da4cb0a1d2ea95cae20, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8493914099935294939, guid: 381096ad916c0da4cb0a1d2ea95cae20, type: 3}
+      propertyPath: m_Size.y
+      value: 1.400152
+      objectReference: {fileID: 0}
+    - target: {fileID: 8493914099935294939, guid: 381096ad916c0da4cb0a1d2ea95cae20, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.2577672
       objectReference: {fileID: 0}
     - target: {fileID: 9197641076034649318, guid: 381096ad916c0da4cb0a1d2ea95cae20, type: 3}
       propertyPath: cherriesText

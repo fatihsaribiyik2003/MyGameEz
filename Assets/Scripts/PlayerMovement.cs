@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     float dirX =0f;
     private int jumpCount = 0;
     private Animator animator;
+    private bool canCheckGround = true;
     [SerializeField] private LayerMask jumpableGround;
     [SerializeField] private float jumpForce=14f;
     [SerializeField] private AudioSource jumpSoundEffect;
@@ -34,15 +35,12 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        Debug.Log(jumpCount);
         // isGrounded = IsGrounded();
         transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
         dirX =Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(dirX * moveSpeed ,rb.velocity.y);
 
-        if (IsGrounded())
-        {
-            jumpCount = 0; // Yerdeyken zıplama sayaçını sıfırla
-        }
         HareketEt(dirX);
         // Diğer karakter kontrolleri buraya eklenir
         // float horizontalInput = Input.GetAxis("Horizontal");
@@ -58,26 +56,44 @@ public class PlayerMovement : MonoBehaviour
         {
             Dondur(true); // Sola hareket ediyorsa flip etme
         }
-        UpdateAnimationUpdate();
         
+        if (canCheckGround && IsGrounded())//zıpladığım an frameler çok hızlı olduğu için heemn 0 oluyo geri 
+        {
+            
+            Debug.Log("is Grundun içindeyiz");
+            if (jumpCount ==1)
+            {
+                jumpCount=1;
+
+            }
+            else{
+                jumpCount=0;
+            }
+            jumpCount = 0; // Yerdeyken zıplama sayaçını sıfırla
+            Debug.Log("isGround calisti" + jumpCount);
+        }
+        else{
+            
+        }
        
     
 
-        if (Input.GetKeyDown("space") && jumpCount < 1)
+        if (canCheckGround && Input.GetKeyDown("space") && jumpCount < 2 )
         {
+            Time.timeScale = 0.1f;
             jumpSoundEffect.Play();
             // animator.SetBool("jump",true);
-            rb.velocity = new Vector3(rb.velocity.x,jumpForce,0);
             Jump();
         }
-        else if (Input.GetKeyDown("w") && jumpCount < 1)
+        else if (canCheckGround && Input.GetKeyDown("w") && jumpCount < 2 )
         {
             // animator.SetBool("jump",true);
             jumpSoundEffect.Play();
 
-            rb.velocity = new Vector3(rb.velocity.x,jumpForce,0);
             Jump();
         }
+
+        
 
        
 
@@ -92,11 +108,11 @@ public class PlayerMovement : MonoBehaviour
         {
             // SpriteRenderer'ın flipX özelliğini ayarla
             spriteRenderer.flipX = flipX;
-        }
-        
-
+        }    
+    UpdateAnimationUpdate();
         
     }
+    
 
     private void UpdateAnimationUpdate()
     {
@@ -115,12 +131,12 @@ public class PlayerMovement : MonoBehaviour
             // animator.SetBool("running", false);
         }
 
-        if (jumpCount ==1 && rb.velocity.y < -.1f )
+        if (jumpCount ==2 && rb.velocity.y < -.1f )
         {
             state =MovementState.falling;
             
         }
-        else if (jumpCount == 1)
+        else if (jumpCount == 2 )
         {
             state =MovementState.doubleJumping;
         }
@@ -146,9 +162,24 @@ public class PlayerMovement : MonoBehaviour
         return Physics2D.BoxCast(coll.bounds.center,coll.bounds.size,0f,Vector2.down, .1f ,jumpableGround);
     }
     void Jump()
-{
+    {
+    StartCoroutine(ResetTimeScaleAfterDelay(0.5f)); // 0.5 saniye sonra zaman ölçeğini sıfırla
+    StartCoroutine(DisableGroundCheckForDelay(0.5f)); // 0.5 saniye boyunca isGrounded kontrolünü devre dışı bırak
     // Zıplama kodu buraya gelecek
-
     jumpCount++;
-}
+    Debug.Log(jumpCount +" ZIpla arttırıldıııııı");
+    rb.velocity = new Vector3(rb.velocity.x,jumpForce,0);
+
+    }
+    IEnumerator ResetTimeScaleAfterDelay(float delay)
+    {
+       yield return new WaitForSeconds(delay);
+       Time.timeScale = 1.0f; // Oyun hızını varsayılan değere geri getir
+    }
+    IEnumerator DisableGroundCheckForDelay(float delay)
+    {
+       canCheckGround = false;
+       yield return new WaitForSeconds(delay);
+      canCheckGround = true; // Belirli bir süre sonra isGrounded kontrolünü tekrar aktif hale getir
+    }
 }
