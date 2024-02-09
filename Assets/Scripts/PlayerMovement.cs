@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using System;
 using TMPro;
+using Unity.VisualScripting;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -163,8 +164,8 @@ public class PlayerMovement : MonoBehaviour
     }
     void Jump()
     {
-    StartCoroutine(ResetTimeScaleAfterDelay(0.5f)); // 0.5 saniye sonra zaman ölçeğini sıfırla
-    StartCoroutine(DisableGroundCheckForDelay(0.5f)); // 0.5 saniye boyunca isGrounded kontrolünü devre dışı bırak
+    StartCoroutine(ResetTimeScaleAfterDelay(0.2f)); // 0.5 saniye sonra zaman ölçeğini sıfırla
+    StartCoroutine(DisableGroundCheckForDelay(0.2f)); // 0.5 saniye boyunca isGrounded kontrolünü devre dışı bırak
     // Zıplama kodu buraya gelecek
     jumpCount++;
     Debug.Log(jumpCount +" ZIpla arttırıldıııııı");
@@ -182,4 +183,5 @@ public class PlayerMovement : MonoBehaviour
        yield return new WaitForSeconds(delay);
       canCheckGround = true; // Belirli bir süre sonra isGrounded kontrolünü tekrar aktif hale getir
     }
+    
 }
