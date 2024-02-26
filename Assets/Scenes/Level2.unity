@@ -3830,6 +3830,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1925271081}
     m_Modifications:
+    - target: {fileID: 2266072333323174872, guid: d4b8b65acd7322840bdeafa1837eaff1, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3830957732199466366, guid: d4b8b65acd7322840bdeafa1837eaff1, type: 3}
       propertyPath: m_Name
       value: Saw
